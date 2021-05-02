@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Dimensions } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import { useNavigation } from "@react-navigation/native";
 
 import { connect } from 'react-redux'
 import { fetchMovies, addToWishList, removeFromWishlist } from '../redux/actions'
@@ -9,15 +10,17 @@ import { BASE_URL } from '../utilities';
 
 
 const _WishlistScreen = (props) => {
+    const navigation = useNavigation();
 
     const { movieReducer } = props
     const { wishlist} = movieReducer;
+
  
     return <View style={styles.container}>
         
         <Text style={{ fontSize: 30, fontWeight: '600', color: 'gray', marginLeft: 20,
         marginBottom: 20 }}>
-                Watch Later
+                Favoris
             </Text>
         <FlatList
             horizontal={false}
@@ -28,11 +31,11 @@ const _WishlistScreen = (props) => {
                     <Image resizeMode="stretch" 
                     style={{ display: 'flex', flex: 5, height: '100%', borderTopLeftRadius: 10, borderBottomLeftRadius: 10}}
                     source={{
-                        uri: `${BASE_URL}/s3_images/${item.thumbnail}`
-                    }}
+                        uri: "https://image.tmdb.org/t/p/w500" + item.backdrop_path,
+                      }}
                     />
                     <Text style={{ flex: 5, padding: 10, fontSize: 14 }}> {item.title} </Text>
-                    <TouchableOpacity style={{ flex: 2, height: '100%', backgroundColor: '#D92F24', justifyContent: 'center', borderTopRightRadius: 10, borderBottomRightRadius: 10}}>
+                    <TouchableOpacity onPress={() => navigation.navigate("MovieDetail", { movie: item })} style={{ flex: 2, height: '100%', backgroundColor: '#D92F24', justifyContent: 'center', borderTopRightRadius: 10, borderBottomRightRadius: 10}}>
                         <Text style={{ fontSize: 40 , color: '#FFF'}}> ▶</Text>
                     </TouchableOpacity>
                 </View>

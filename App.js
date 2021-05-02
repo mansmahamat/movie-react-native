@@ -5,7 +5,8 @@ import { StyleSheet, Image} from 'react-native';
 //navigation
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs'
-
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 
 //redux
 import { Provider } from 'react-redux';
@@ -16,8 +17,12 @@ import { PersistGate }  from 'redux-persist/integration/react'
 //Screens
 import HomeScreen from './src/screens/HomeScreen'
 import WishlistScreen from './src/screens/WishlistScreen'
+import MovieDetail from './src/screens/MovieDetail'
+import SerieDetail from './src/components/SerieDetail'
+import MainRoot from './src/screens/MainRoot'
 
 
+const Stack = createStackNavigator();
 
 const switchNavigator = createSwitchNavigator({
 
@@ -64,14 +69,52 @@ const switchNavigator = createSwitchNavigator({
 })
 
 
-const App = createAppContainer(switchNavigator)
+const App = createAppContainer(
+  <NavigationContainer>
+    <Stack.Navigator  screenOptions={{ headerShown:false, }} >
+      <Stack.Screen
+        name="MainRoot"
+        component={MainRoot}
+        options={{ title: 'MainRoot' }}
+      />
+       <Stack.Screen
+        name="MovieDetail"
+        component={MovieDetail}
+        options={{ title: 'MovieDetail' }}
+      />
+      <Stack.Screen
+        name="SerieDetail"
+        component={SerieDetail}
+        options={{ title: 'SerieDetail' }}
+      />
+    </Stack.Navigator>
+  </NavigationContainer>
+)
 
 
 export default () => {
   return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={appPersist}>
-          <App />
+        <NavigationContainer>
+    <Stack.Navigator  screenOptions={{ headerShown:false, }} >
+      <Stack.Screen
+        name="MainRoot"
+        component={MainRoot}
+        options={{ title: 'MainRoot' }}
+      />
+       <Stack.Screen
+        name="MovieDetail"
+        component={MovieDetail}
+        options={{ title: 'MovieDetail' }}
+      />
+      <Stack.Screen
+        name="SerieDetail"
+        component={SerieDetail}
+        options={{ title: 'SerieDetail' }}
+      />
+    </Stack.Navigator>
+  </NavigationContainer>
         </PersistGate>
       </Provider>
   )

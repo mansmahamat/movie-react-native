@@ -6,10 +6,10 @@ const imageWidth = (deviceWidth - 60) / 2;
 const leftPlay = (imageWidth- 44) / 2;
 
 export default function TrailersItems(props) {
-  console.log(props.item)
+
     return (
-        <TouchableWithoutFeedback onPress={() => props.setModalVisible(true)}>
-      <View style={{ marginRight: 5 }}>
+        <TouchableWithoutFeedback onPress={() =>{ props.setModalVisible(true); props.setActiveMovieTrailerKey(props.item.key)}}>
+      <View style={{ flex: 1}}>
       <Image
         style={{
           position: "absolute",

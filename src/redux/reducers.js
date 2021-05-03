@@ -2,7 +2,9 @@ import { Action } from "./actions";
 
 const initialState = {
   movies: [],
+  series: [],
   topMovies: [],
+  upcomingMovies: [],
   wishlist: [],
   users: [],
 };
@@ -13,6 +15,16 @@ export default function (state = initialState, action) {
       return {
         ...state,
         movies: action.payload,
+      };
+      case Action.GET_SERIES:
+        return {
+          ...state,
+          series: action.payload,
+        };
+      case Action.GET_UPCOMING_MOVIES:
+      return {
+        ...state,
+        upcomingMovies: action.payload,
       };
     case Action.GET_TOP_RATED_MOVIES:
       return {

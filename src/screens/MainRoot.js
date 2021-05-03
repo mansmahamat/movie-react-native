@@ -29,6 +29,7 @@ export default function MainRoot() {
         inactiveTintColor: "#999",
       }}
     >
+      
       <Tab.Screen
         options={{
           tabBarLabel: "Accueil",

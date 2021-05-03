@@ -21,6 +21,7 @@ import {
   removeFromWishlist,
   fetchTopRatedMovies,
 } from "../redux/actions";
+import Actor from "../components/Actor";
 
  const _MovieDetail = (props) => {
   const {
@@ -34,7 +35,9 @@ import {
   const { movies, wishlist, topMovies } = movieReducer;
   const movie = props.route.params.movie;
 
+
   const [trailers, setTrailers] = useState([]);
+  const [actor, setActor] = useState([]);
   const [details, setDetails] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [activeMovieTrailerKey, setActiveMovieTrailerKey] = useState("")
@@ -65,7 +68,23 @@ import {
       .catch((error) => {
         console.log(error);
       });
+
+      axios
+      .get(
+        "https://api.themoviedb.org/3/movie/" +
+          movie.id +
+          "/credits?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR"
+      )
+      .then((response) => {
+        setActor(response.data.cast);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
+
+
+
 
 const onTapAddToWishlist = (movie) => {
     addToWishList(movie);
@@ -127,7 +146,7 @@ const onTapAddToWishlist = (movie) => {
             </TouchableWithoutFeedback>
           </View>
           <View style={{ width: "100%" }}>
-            <YoutubePlayer height={300} play={true} videoId={"MbGw8Q9Hz6Q"} />
+            <YoutubePlayer height={300} play={true} videoId={activeMovieTrailerKey} />
           </View>
         </View>
       </Modal>
@@ -239,9 +258,26 @@ const onTapAddToWishlist = (movie) => {
                   key={item.key}
                   item={item}
                   setModalVisible={setModalVisible}
+                  setActiveMovieTrailerKey={setActiveMovieTrailerKey}
                 />
               ) : (<View key={item.key} />);
             })}
+          </View>
+          <Text style={styles.header}>Acteur</Text>
+          <View style={{flexDirection: "row"}}>
+          <ScrollView horizontal={true}>
+           {actor.map((item, index) => {
+            return index < 12 ? (
+              <Actor
+              key={index}
+              
+                actor={item}
+              />
+            ) : (<View key={index} />);
+          })}
+           </ScrollView>
+              
+            
           </View>
         </View>
       </ScrollView>

@@ -5,13 +5,13 @@ export default function GenresGroup({data}) {
     return (
         <View style={styles.genresContainer} >
                 {data.map((item, index) => {
-                    return (
+                    return index < 2 ? (
                         <View style={styles.genresItem} key={index} >
                             <Text style={{ fontSize: 15}}>
                                 {item.name}
                             </Text>
                         </View>
-                    ) 
+                    ) : <View key={index}/>
                 })}
         
         </View>

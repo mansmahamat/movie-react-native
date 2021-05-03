@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Dimensions } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, Animated } from 'react-native-gesture-handler';
 import { useNavigation } from "@react-navigation/native";
 
 import { connect } from 'react-redux'
@@ -14,6 +14,7 @@ const _WishlistScreen = (props) => {
 
     const { movieReducer } = props
     const { wishlist} = movieReducer;
+    
 
  
     return <View style={styles.container}>
@@ -26,8 +27,8 @@ const _WishlistScreen = (props) => {
             horizontal={false}
             showsVerticalScrollIndicator={false}
             data={wishlist}
-            renderItem={({item}) => (
-                <View style={styles.movieCard}>
+            renderItem={({item, index}) => (
+                <View key={index} style={styles.movieCard}>
                     <Image resizeMode="stretch" 
                     style={{ display: 'flex', flex: 5, height: '100%', borderTopLeftRadius: 10, borderBottomLeftRadius: 10}}
                     source={{
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
     }, 
     movieCard: {
     width: Dimensions.get('screen').width - 10,
-    height: 100,
+    height: 110,
     backgroundColor: '#FFF',
     margin: 5,
     borderRadius: 10,

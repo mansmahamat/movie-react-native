@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -8,55 +9,84 @@ import {
   ImageBackground,
   ScrollView,
   FlatList,
+  TextInput,
   Image,
   SafeAreaView,
+  Button,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import MovieItems from '../components/MovieItems'
+import MovieItems from "../components/MovieItems";
+import SerieItems from "../components/SerieItems";
 import Constants from "expo-constants";
 import { connect } from "react-redux";
 import {
   fetchMovies,
+  fetchSeries,
   addToWishList,
   removeFromWishlist,
   fetchTopRatedMovies,
+  fetchUpcomingMovies,
 } from "../redux/actions";
-import { BASE_URL } from "../utilities";
+import { dummyData } from "../data/Data";
+import Autocomplete from "react-native-autocomplete-input";
+import axios from "axios";
 
 const _HomeScreen = (props) => {
+  const navigation = useNavigation();
   const {
     movieReducer,
     fetchMovies,
+    fetchSeries,
     addToWishList,
     removeFromWishlist,
     fetchTopRatedMovies,
+    fetchUpcomingMovies,
   } = props;
 
-  const { movies, wishlist, topMovies } = movieReducer;
+  const { movies, series, wishlist, topMovies, upcomingMovies } = movieReducer;
 
   const [currentMovie, setCurrentMovie] = useState(undefined);
   const [listTopMovie, setListTopMovie] = useState([]);
+  const [listUpcomingMovie, setListUpcomingMovie] = useState();
+  const [listSerie, setListSerie] = useState([])
+  const [query, setQuery] = useState("");
+  const [queryResult, setQueryResult] = useState([]);
 
   useEffect(() => {
     fetchTopRatedMovies();
     setListTopMovie(topMovies);
-  }, []);
+  }, [topMovies]);
 
   useEffect(() => {
-    fetchMovies();
-  }, []);
+    fetchUpcomingMovies();
+    setListUpcomingMovie(upcomingMovies);
+  }, [upcomingMovies]);
 
   useEffect(() => {
-    if (movies.length > 0) {
-      setCurrentMovie(movies[0]);
-    }
-  }, [movies]);
+    fetchSeries()
+  setListSerie(series)
+  }, [])
 
+  const searchData = (query) => {
+    axios
+      .get(
+        "https://api.themoviedb.org/3/search/movie?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&query=" + query +"&page=1&include_adult=false"
+      )
+      .then((response) => {
+        setQueryResult(response.data.results)
+       
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
+      
+  }
 
-  const didTapCurrentMovie = (movie) => {
-    setCurrentMovie(movie);
-  };
+  const goSearchResults = () => {
+    navigation.navigate("ResultsQueryMovie", { queryResult: queryResult })
+    setQuery("")
+  }
 
   const onTapAddToWishlist = (movie) => {
     addToWishList(movie);
@@ -75,16 +105,66 @@ const _HomeScreen = (props) => {
   };
 
   return (
-    <SafeAreaView style={styles.container} showHorizontalScrollIndicator={false}>
+    <SafeAreaView
+      style={styles.container}
+      showHorizontalScrollIndicator={false}
+    >
+      <View style={styles.header}>
+        <Text style={styles.title}>Movied App</Text>
+<View style={{flexDirection: "row", justifyContent:"center"}}>
+<TextInput
+       style={{
+        backgroundColor: "green",
+        width: 150
+       
+      }}
+      data={queryResult}
+      placeholder="searchhint"
+      
      
+      onChangeText={(query) => {
+        searchData(query);
+      }}
+    
+    />
+    <Button
+  onPress={goSearchResults}
+  title="Learn More"
+  color="#841584"
+/>
 
-        <View>
-        <Text style={styles.title}>Search</Text>
+ 
+</View>
 
-<MaterialCommunityIcons name="magnify" size={24} />
-        </View>
 
-<ScrollView>
+        
+  
+
+      </View>
+
+      
+
+      
+
+      <ScrollView>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          paddingHorizontal: 20,
+          marginVertical: 20,
+        }}
+      >
+         
+        <Image
+          style={styles.cover_image}
+          source={{
+            uri:
+              "https://image.tmdb.org/t/p/w500/fatz1aegtBGh7KS0gipcsw9MqUn.jpg",
+          }}
+        />
+      </View>
         <View
           style={{
             flexDirection: "row",
@@ -102,14 +182,20 @@ const _HomeScreen = (props) => {
               alignItems: "center",
             }}
           >
-            <Text>View all</Text>
             <MaterialCommunityIcons name="chevron-right" size={20} />
           </View>
         </View>
         <ScrollView horizontal={true}>
-          <View style={{ flexDirection: "row", flex: 1, paddingLeft: 20 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              flex: 1,
+              paddingLeft: 20,
+              paddingRight: 20,
+            }}
+          >
             {listTopMovie.map((movie, index) => {
-              return index < 10 ? (
+              return index < 15 ? (
                 <MovieItems
                   key={movie.id}
                   movie={movie}
@@ -122,9 +208,82 @@ const _HomeScreen = (props) => {
             })}
           </View>
         </ScrollView>
-        </ScrollView>
 
-       
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingHorizontal: 20,
+            marginVertical: 20,
+          }}
+        >
+          <Text>Recent movie</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              flexWrap: "wrap",
+              alignItems: "center",
+            }}
+          >
+            <MaterialCommunityIcons name="chevron-right" size={20} />
+          </View>
+        </View>
+        <ScrollView horizontal={true}>
+          <View style={{ flexDirection: "row", flex: 1, paddingLeft: 20 }}>
+            {upcomingMovies.map((movie, index) => {
+              return index < 15 ? (
+                <MovieItems
+                  key={movie.id}
+                  movie={movie}
+                  title={movie.title}
+                  image={movie.poster_path}
+                />
+              ) : (
+                <View key={movie.id} />
+              );
+            })}
+          </View>
+        </ScrollView>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingHorizontal: 20,
+            marginVertical: 20,
+          }}
+        >
+          <Text>Popular serie</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              flexWrap: "wrap",
+              alignItems: "center",
+            }}
+          >
+            <MaterialCommunityIcons name="chevron-right" size={20} />
+          </View>
+        </View>
+        <ScrollView horizontal={true}>
+          <View style={{ flexDirection: "row", flex: 1, paddingLeft: 20 }}>
+            {listSerie.map((serie, index) => {
+              return index < 15 ? (
+                <SerieItems
+                  key={serie.id}
+                  serie={serie}
+                  title={serie.title}
+                  image={serie.poster_path}
+                />
+              ) : (
+                <View key={serie.id} />
+              );
+            })}
+          </View>
+        </ScrollView>
+   
+      </ScrollView>
+      
     </SafeAreaView>
   );
 };
@@ -138,6 +297,8 @@ const HomeScreen = connect(mapStateToProps, {
   addToWishList,
   removeFromWishlist,
   fetchTopRatedMovies,
+  fetchUpcomingMovies,
+  fetchSeries,
 })(_HomeScreen);
 
 export default HomeScreen;
@@ -190,4 +351,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginLeft: 10,
   },
+  cover_image: {
+    width: "100%",
+    height: 256,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  input: {
+    height: 40,
+    width: 155,
+    margin: 12,
+    borderWidth: 1,
+  },
+  autocompleteContainer: {
+    flex: 1,
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 1
+  }
 });

@@ -10,7 +10,7 @@ import { NavigationContainer } from "@react-navigation/native";
 
 //redux
 import { Provider } from "react-redux";
-import { store, appPersist } from "./src/redux/store";
+import { store, appPersist, appPersist_serie, store_serie } from "./src/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 
 //Screens
@@ -68,8 +68,8 @@ const switchNavigator = createSwitchNavigator({
 
 export default () => {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={appPersist}>
+    <Provider store_serie={store_serie} store={store}>
+      <PersistGate loading={null} persistor={appPersist, appPersist_serie}>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen

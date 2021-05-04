@@ -4,7 +4,7 @@ import { FlatList, Animated } from 'react-native-gesture-handler';
 import { useNavigation } from "@react-navigation/native";
 
 import { connect } from 'react-redux'
-import { fetchMovies, addToWishList, removeFromWishlist } from '../redux/actions'
+import { fetchMovies, addToWishList, removeFromWishlist, addToWishListSerie, removeFromWishlistSerie } from '../redux/actions'
 import { BASE_URL } from '../utilities';
 
 
@@ -12,8 +12,9 @@ import { BASE_URL } from '../utilities';
 const _WishlistScreen = (props) => {
     const navigation = useNavigation();
 
-    const { movieReducer } = props
+    const { movieReducer, serieReducer } = props
     const { wishlist} = movieReducer;
+    const { wishlist_serie} = serieReducer;
     
 
  
@@ -22,6 +23,10 @@ const _WishlistScreen = (props) => {
         <Text style={{ fontSize: 30, fontWeight: '600', color: 'gray', marginLeft: 20,
         marginBottom: 20 }}>
                 Favoris
+            </Text>
+            <Text style={{ fontSize: 30, fontWeight: '600', color: 'gray', marginLeft: 20,
+        marginBottom: 20 }}>
+                Film
             </Text>
         <FlatList
             horizontal={false}
@@ -35,24 +40,32 @@ const _WishlistScreen = (props) => {
                         uri: "https://image.tmdb.org/t/p/w500" + item.backdrop_path,
                       }}
                     />
-                    <Text style={{ flex: 5, padding: 10, fontSize: 14 }}> {item.title} </Text>
-                    <TouchableOpacity onPress={() => navigation.navigate("MovieDetail", { movie: item })} style={{ flex: 2, height: '100%', backgroundColor: '#D92F24', justifyContent: 'center', borderTopRightRadius: 10, borderBottomRightRadius: 10}}>
+                    
+                    {item.name  &&  <Text style={{ flex: 5, padding: 10, fontSize: 14 }}> {item.name} </Text> }
+                    {item.title  && <Text style={{ flex: 5, padding: 10, fontSize: 14 }}> {item.title} </Text>}
+                   {item.title && <TouchableOpacity onPress={() => navigation.navigate("MovieDetail", { movie: item })} style={{ flex: 2, height: '100%', backgroundColor: '#D92F24', justifyContent: 'center', borderTopRightRadius: 10, borderBottomRightRadius: 10}}>
                         <Text style={{ fontSize: 40 , color: '#FFF'}}> ▶</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
+
+                    {item.name  &&  <TouchableOpacity onPress={() => navigation.navigate("SerieDetail", { serie: item })} style={{ flex: 2, height: '100%', backgroundColor: '#D92F24', justifyContent: 'center', borderTopRightRadius: 10, borderBottomRightRadius: 10}}>
+                        <Text style={{ fontSize: 40 , color: '#FFF'}}> ▶</Text>
+                    </TouchableOpacity>}
                 </View>
             )}
             keyExtractor={(item) => item._id}
         />
+
   
     </View>
 }
 
 
 const mapStateToProps = (state) => ({
-    movieReducer: state.movieReducer
+    movieReducer: state.movieReducer,
+    serieReducer: state.serieReducer
 })
 
-const WishlistScreen = connect(mapStateToProps, { fetchMovies, addToWishList, removeFromWishlist })(_WishlistScreen)
+const WishlistScreen = connect(mapStateToProps, { fetchMovies, addToWishList, removeFromWishlist, addToWishListSerie, removeFromWishlistSerie })(_WishlistScreen)
 
 export default WishlistScreen;
 

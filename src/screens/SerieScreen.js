@@ -15,21 +15,21 @@ import {
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { connect } from "react-redux";
-import MovieItems from "../components/MovieItems";
+import SerieItems from "../components/SerieItems";
 import {
   addToWishList,
-  fetchMovies,
+  fetchOnAirSeries,
   fetchSeries,
   fetchTopRatedMovies,
   fetchUpcomingMovies,
   removeFromWishlist,
 } from "../redux/actions";
 
-const _HomeScreen = (props) => {
+const _SerieScreen = (props) => {
   const navigation = useNavigation();
   const {
     movieReducer,
-    fetchMovies,
+    fetchOnAirSeries,
     fetchSeries,
     addToWishList,
     removeFromWishlist,
@@ -37,24 +37,27 @@ const _HomeScreen = (props) => {
     fetchUpcomingMovies,
   } = props;
 
-  const { movies, series, wishlist, topMovies, upcomingMovies } = movieReducer;
+  const { onAirSeries, series, wishlist, topMovies, upcomingMovies } = movieReducer;
 
   const [currentMovie, setCurrentMovie] = useState(undefined);
   const [listTopMovie, setListTopMovie] = useState([]);
   const [listUpcomingMovie, setListUpcomingMovie] = useState();
   const [listSerie, setListSerie] = useState([]);
+  const [listAirSerie, setlistAirSerie] = useState([]);
   const [query, setQuery] = useState("");
   const [queryResult, setQueryResult] = useState([]);
 
-  useEffect(() => {
-    fetchTopRatedMovies();
-    setListTopMovie(topMovies);
-  }, [topMovies]);
 
   useEffect(() => {
-    fetchUpcomingMovies();
-    setListUpcomingMovie(upcomingMovies);
-  }, [upcomingMovies]);
+    fetchSeries();
+    setListSerie(series);
+  }, [series]);
+
+  useEffect(() => {
+    fetchOnAirSeries();
+    setlistAirSerie(onAirSeries);
+  }, [onAirSeries]);
+  
 
   const searchData = (query) => {
     axios
@@ -76,16 +79,16 @@ const _HomeScreen = (props) => {
     setQuery("");
   };
 
-  const onTapAddToWishlist = (movie) => {
-    addToWishList(movie);
+  const onTapAddToWishlist = (serie) => {
+    addToWishList(serie);
   };
 
-  const onTapRemoveFromWishlist = (movie) => {
-    removeFromWishlist(movie);
+  const onTapRemoveFromWishlist = (serie) => {
+    removeFromWishlist(serie);s
   };
 
-  const isExist = (movie) => {
-    if (wishlist.filter((item) => item._id === movie._id).length > 0) {
+  const isExist = (serie) => {
+    if (wishlist.filter((item) => item._id === serie._id).length > 0) {
       return true;
     }
 
@@ -102,7 +105,7 @@ const _HomeScreen = (props) => {
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <TextInput
             style={{
-              backgroundColor: "green",
+              backgroundColor: "orange",
               width: 150,
             }}
             data={queryResult}
@@ -113,7 +116,7 @@ const _HomeScreen = (props) => {
           />
           <Button
             onPress={goSearchResults}
-            title="Learn More"
+            title="serie"
             color="#841584"
           />
         </View>
@@ -137,49 +140,6 @@ const _HomeScreen = (props) => {
             }}
           />
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingHorizontal: 20,
-            marginVertical: 20,
-          }}
-        >
-          <Text>Popular movie</Text>
-          <View
-            style={{
-              flexDirection: "row",
-              flexWrap: "wrap",
-              alignItems: "center",
-            }}
-          >
-            <MaterialCommunityIcons name="chevron-right" size={20} />
-          </View>
-        </View>
-        <ScrollView horizontal={true}>
-          <View
-            style={{
-              flexDirection: "row",
-              flex: 1,
-              paddingLeft: 20,
-              paddingRight: 20,
-            }}
-          >
-            {listTopMovie.map((movie, index) => {
-              return index < 15 ? (
-                <MovieItems
-                  key={movie.id}
-                  movie={movie}
-                  title={movie.title}
-                  image={movie.poster_path}
-                />
-              ) : (
-                <View key={movie.id} />
-              );
-            })}
-          </View>
-        </ScrollView>
 
         <View
           style={{
@@ -190,7 +150,7 @@ const _HomeScreen = (props) => {
             marginVertical: 20,
           }}
         >
-          <Text>Recent movie</Text>
+          <Text>Popular serie</Text>
           <View
             style={{
               flexDirection: "row",
@@ -203,16 +163,52 @@ const _HomeScreen = (props) => {
         </View>
         <ScrollView horizontal={true}>
           <View style={{ flexDirection: "row", flex: 1, paddingLeft: 20 }}>
-            {upcomingMovies.map((movie, index) => {
+            {listSerie.map((serie, index) => {
               return index < 15 ? (
-                <MovieItems
-                  key={movie.id}
-                  movie={movie}
-                  title={movie.title}
-                  image={movie.poster_path}
+                <SerieItems
+                  key={serie.id}
+                  serie={serie}
+                  title={serie.title}
+                  image={serie.poster_path}
                 />
               ) : (
-                <View key={movie.id} />
+                <View key={serie.id} />
+              );
+            })}
+          </View>
+        </ScrollView>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingHorizontal: 20,
+            marginVertical: 20,
+          }}
+        >
+          <Text>A l'affiche serie</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              flexWrap: "wrap",
+              alignItems: "center",
+            }}
+          >
+            <MaterialCommunityIcons name="chevron-right" size={20} />
+          </View>
+        </View>
+        <ScrollView horizontal={true}>
+          <View style={{ flexDirection: "row", flex: 1, paddingLeft: 20 }}>
+            {listAirSerie.map((serie, index) => {
+              return index < 15 ? (
+                <SerieItems
+                  key={serie.id}
+                  serie={serie}
+                  title={serie.title}
+                  image={serie.poster_path}
+                />
+              ) : (
+                <View key={serie.id} />
               );
             })}
           </View>
@@ -226,16 +222,16 @@ const mapStateToProps = (state) => ({
   movieReducer: state.movieReducer,
 });
 
-const HomeScreen = connect(mapStateToProps, {
-  fetchMovies,
+const SerieScreen = connect(mapStateToProps, {
+  fetchOnAirSeries,
   addToWishList,
   removeFromWishlist,
   fetchTopRatedMovies,
   fetchUpcomingMovies,
   fetchSeries,
-})(_HomeScreen);
+})(_SerieScreen);
 
-export default HomeScreen;
+export default SerieScreen;
 
 const styles = StyleSheet.create({
   container: {

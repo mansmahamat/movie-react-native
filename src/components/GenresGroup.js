@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     genresContainer: {
         flexDirection: "row",
         flexWrap: "wrap",
-        marginBottom: 35
+        marginBottom: 15
     },
     genresItem : {
         justifyContent: "center",
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         
         marginRight: 10,
         marginBottom: 5,
-        borderRadius: 19,
+        borderRadius: 8,
         borderWidth: 1,
         borderColor: "red"
     }

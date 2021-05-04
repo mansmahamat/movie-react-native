@@ -9,6 +9,7 @@ import {
 import Constants from "expo-constants";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "./HomeScreen";
+import SerieScreen from "./SerieScreen";
 import WishlistScreen from "./WishlistScreen";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -32,13 +33,23 @@ export default function MainRoot() {
       
       <Tab.Screen
         options={{
-          tabBarLabel: "Accueil",
+          tabBarLabel: "Films",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={25} />
+            <MaterialCommunityIcons name="movie-open" color={color} size={25} />
           ),
         }}
         name="HomeScreen"
         component={HomeScreen}
+      />
+      <Tab.Screen
+        options={{
+          tabBarLabel: "Séries",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="popcorn" color={color} size={25} />
+          ),
+        }}
+        name="SerieScreen"
+        component={SerieScreen}
       />
       <Tab.Screen
         options={{

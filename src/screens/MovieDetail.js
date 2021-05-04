@@ -250,7 +250,7 @@ const onTapAddToWishlist = (movie) => {
           <Text style={styles.header}>Résumé</Text>
           <Text>{movie.overview}</Text>
           <Text style={styles.header}>Trailers</Text>
-          <View style={{ flexWrap: "wrap", flexDirection: "row" }}>
+          {/* <View style={{ flexWrap: "wrap", flexDirection: "row" }}>
             {trailers.map((item, index) => {
               return index < 2 ? (
                 <TrailersItems
@@ -262,7 +262,7 @@ const onTapAddToWishlist = (movie) => {
                 />
               ) : (<View key={item.key} />);
             })}
-          </View>
+          </View> */}
           <Text style={styles.header}>Acteur</Text>
           <View style={{flexDirection: "row"}}>
           <ScrollView horizontal={true}>

@@ -2,33 +2,33 @@ import React from 'react'
 import { Text, View, StyleSheet, Dimensions, TouchableWithoutFeedback, Image } from 'react-native'
 
 const deviceWidth = Dimensions.get("window").width;
-const imageWidth = (deviceWidth - 60) / 2;
-const leftPlay = (imageWidth- 44) / 2;
+const imageWidth = (deviceWidth) ;
+const leftPlay = (imageWidth- 94) / 2;
 
 export default function TrailersItems(props) {
 
     return (
-        <TouchableWithoutFeedback onPress={() =>{ props.setModalVisible(true); props.setActiveMovieTrailerKey(props.item.key)}}>
+        <TouchableWithoutFeedback onPress={() =>{ props.setModalVisible(true); props.setActiveMovieTrailerKey(props.item.key); props.setPlay(true)}}>
       <View style={{ flex: 1}}>
       <Image
         style={{
           position: "absolute",
-          top: 30,
-          left: leftPlay,
-          zIndex: 1,
-          width: 42,
-          height: 42,
+                top: 90,
+                left: leftPlay,
+                zIndex: 1,
+                width: 100,
+                height: 100,
         }}
         source={require("../images/play.png")}
       />
-      <Image
-        resizeMode={"cover"}
-        style={styles.images}
-        source={{
-          uri: "https://image.tmdb.org/t/p/w342" + props.image,
-        }}
-      />
-      <Text style={{ flexWrap: "wrap", width: 151 }}>{props.item.name}</Text>
+        <Image
+              resizeMode={"cover"}
+              style={{height: 285}}
+              source={{
+                uri: "https://image.tmdb.org/t/p/w500" + props.serie.backdrop_path,
+              }}
+            />
+     
     </View>
     </TouchableWithoutFeedback>
     )

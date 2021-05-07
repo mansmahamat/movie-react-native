@@ -1,42 +1,34 @@
-import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Constants from "expo-constants";
+import React, { useEffect, useState } from "react";
 import {
+  Dimensions,
   Image,
   Modal,
   ScrollView,
   StyleSheet,
   Text,
-  Dimensions,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import TrailersItems from "../components/TrailersItems";
-import Constants from "expo-constants";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import YoutubePlayer from "react-native-youtube-iframe";
-import axios from "axios";
-import GenresGroup from "../components/GenresGroup";
+import { connect } from "react-redux";
 import Actor from "../components/Actor";
 import EpisodesList from "../components/EpisodesList";
-import SimilarSerie from '../components/SimilarSerie'
-import { connect } from "react-redux";
-import {
-  addToWishList, 
-  removeFromWishlist,
-} from "../redux/actions";
+import GenresGroup from "../components/GenresGroup";
+import SimilarSerie from "../components/SimilarSerie";
+import TrailersItems from "../components/TrailersItems";
+import { addToWishList, removeFromWishlist } from "../redux/actions";
 
 const deviceWidth = Dimensions.get("window").width;
 const imageWidth = deviceWidth - 250;
 const leftPlay = imageWidth;
 
 const _SerieDetail = (props) => {
+  const { movieReducer, addToWishList, removeFromWishlist } = props;
 
-  const {
-    movieReducer,
-    addToWishList,
-    removeFromWishlist,
-  } = props;
-
-  const {  wishlist } = movieReducer;
+  const { wishlist } = movieReducer;
   const serie = props.route.params.serie;
 
   const [details, setDetails] = useState([]);
@@ -47,7 +39,6 @@ const _SerieDetail = (props) => {
   const [trailers, setTrailers] = useState([]);
   const [similars, setSimilars] = useState([]);
   const [activeMovieTrailerKey, setActiveMovieTrailerKey] = useState("");
-  
 
   useEffect(() => {
     axios
@@ -77,11 +68,11 @@ const _SerieDetail = (props) => {
         console.log(error);
       });
 
-      axios
+    axios
       .get(
         "https://api.themoviedb.org/3/tv/" +
           serie.id +
-          "/similar?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR"
+          "/recommendations?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR"
       )
       .then((response) => {
         setSimilars(response.data.results);
@@ -159,7 +150,11 @@ const _SerieDetail = (props) => {
               alignItems: "center",
             }}
           >
-            <TouchableWithoutFeedback onPress={() => {setModalVisible(false) , setPlay(false)}}>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                setModalVisible(false), setPlay(false);
+              }}
+            >
               <MaterialCommunityIcons name="close" size={42} color="black" />
             </TouchableWithoutFeedback>
           </View>
@@ -186,45 +181,12 @@ const _SerieDetail = (props) => {
             }}
             name="chevron-left"
             color={"#fff"}
-            size={30}
+            size={40}
           />
         </TouchableWithoutFeedback>
 
-        {/* <TouchableWithoutFeedback>
-         { isExist(movie) ? ( <MaterialCommunityIcons
-            onPress={() => onTapRemoveFromWishlistSerie(movie)}
-            style={{
-              position: "absolute",
-              top: Constants.statusBarHeight + 10,
-              right: 10,
-              zIndex: 1,
-              paddingRight: 20,
-              paddingBottom: 20,
-            }}
-            name="heart"
-            color={"red"}
-            size={27}
-          />  ) : (
-            <MaterialCommunityIcons
-            onPress={() => onTapAddToWishlistSerie(movie)}
-            style={{
-              position: "absolute",
-              top: Constants.statusBarHeight + 10,
-              right: 10,
-              zIndex: 1,
-              paddingRight: 20,
-              paddingBottom: 20,
-            }}
-            name="heart-outline"
-            color={"white"}
-            size={27}
-          />
-          )
-        }
-        </TouchableWithoutFeedback> */}
-
-       
-       { trailers.length >  0 ? <View>
+        {trailers.length > 0 ? (
+          <View>
             {trailers.map((item, index) => {
               return index < 1 ? (
                 <TrailersItems
@@ -236,108 +198,109 @@ const _SerieDetail = (props) => {
                   setModalVisible={setModalVisible}
                   setActiveMovieTrailerKey={setActiveMovieTrailerKey}
                 />
-              ) : (<View key={item.key} />);
+              ) : (
+                <View key={item.key} />
+              );
             })}
-          </View>  :  <Image
-              resizeMode={"cover"}
-              style={{height: 285}}
-              source={  {uri: "https://image.tmdb.org/t/p/w500" + serie.backdrop_path}}
-            />
-            }
-          
-    
-     
-
-        {/* <View style={styles.square}>
+          </View>
+        ) : (
           <Image
             resizeMode={"cover"}
-            style={styles.poster}
+            style={{ height: 285 }}
             source={{
-              uri: "https://image.tmdb.org/t/p/w500" + serie.poster_path,
+              uri: "https://image.tmdb.org/t/p/w500" + serie.backdrop_path,
             }}
           />
-        </View> */}
+        )}
+
         <TouchableWithoutFeedback>
-         { isExist(serie) ? ( <MaterialCommunityIcons
-            onPress={() => onTapRemoveFromWishlistSerie(serie)}
-            style={{
-              position: "absolute",
-              top: Constants.statusBarHeight + 10,
-              right: 10,
-              zIndex: 1,
-              paddingRight: 20,
-              paddingBottom: 20,
-            }}
-            name="heart"
-            color={"red"}
-            size={27}
-          />  ) : (
+          {isExist(serie) ? (
             <MaterialCommunityIcons
-            onPress={() => onTapAddToWishlistSerie(serie)}
-            style={{
-              position: "absolute",
-              top: Constants.statusBarHeight + 10,
-              right: 10,
-              zIndex: 1,
-              paddingRight: 20,
-              paddingBottom: 20,
-            }}
-            name="heart-outline"
-            color={"white"}
-            size={27}
-          />
-          )
-        }
+              onPress={() => onTapRemoveFromWishlistSerie(serie)}
+              style={{
+                position: "absolute",
+                top: Constants.statusBarHeight + 10,
+                right: 10,
+                zIndex: 1,
+                paddingRight: 20,
+                paddingBottom: 20,
+              }}
+              name="heart"
+              color={"red"}
+              size={32}
+            />
+          ) : (
+            <MaterialCommunityIcons
+              onPress={() => onTapAddToWishlistSerie(serie)}
+              style={{
+                position: "absolute",
+                top: Constants.statusBarHeight + 10,
+                right: 10,
+                zIndex: 1,
+                paddingRight: 20,
+                paddingBottom: 20,
+              }}
+              name="heart-outline"
+              color={"white"}
+              size={38}
+            />
+          )}
         </TouchableWithoutFeedback>
 
-        <View style={{ flex: 1, backgroundColor: "#CFCFCF", padding: 20 }}>
+        <View style={{ flex: 1, padding: 20 }}>
           <View
             style={{
               flex: 1,
-              flexWrap:"wrap",
+              flexWrap: "wrap",
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "flex-end",
               marginBottom: 10,
             }}
           >
-              <Text style={styles.title}>{serie.name}</Text>
-  
-            
-          
+            <Text style={styles.title}>{serie.name}</Text>
           </View>
 
           <View style={{ flexWrap: "wrap" }}>
             {details.genres && <GenresGroup data={details.genres} />}
           </View>
 
-          <View style={{flexDirection: "row", justifyContent: "flex-end", flexWrap: "wrap"}}>
-          <MaterialCommunityIcons name="star" size={32} color="#FFD700" />
-              <Text
-                style={
-                  serie.vote_average > 5
-                    ? { color: "green", fontSize: 26, fontWeight: "bold" }
-                    : { color: "red", fontSize: 26, fontWeight: "bold"  }
-                }
-              >
-                {serie.vote_average}
-              </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              flexWrap: "wrap",
+            }}
+          >
+            <MaterialCommunityIcons name="star" size={32} color="#FFD700" />
+            <Text
+              style={
+                serie.vote_average > 5
+                  ? { color: "green", fontSize: 26, fontWeight: "bold" }
+                  : { color: "red", fontSize: 26, fontWeight: "bold" }
+              }
+            >
+              {serie.vote_average.toFixed(2)}
+            </Text>
           </View>
-          
-          <View style={{marginBottom: 20}}>
-             <Text>Nombre de saisons : {details.number_of_seasons}</Text>
-          <Text>Nombre apisodes : {details.number_of_episodes}</Text>
-          <Text>Durée moyenne des épisodes : {details.episode_run_time} min</Text>
-          <EpisodesList creators={creator} />
-          </View>
-         
 
-          
+          <View style={{ marginBottom: 20 }}>
+            <Text style={styles.detail}>
+              Nombre de saisons : {details.number_of_seasons}
+            </Text>
+            <Text style={styles.detail}>
+              Nombre épisodes : {details.number_of_episodes}
+            </Text>
+            <Text style={styles.detail}>
+              Durée moyenne des épisodes : {details.episode_run_time} min
+            </Text>
+            <EpisodesList creators={creator} />
+          </View>
 
           <Text style={styles.header}>Résumé</Text>
-          <Text> {serie.overview} </Text>
-     
-          <Text style={styles.header}>Acteur</Text>
+          <Text style={{ color: "#fff" }}> {serie.overview} </Text>
+
+          <Text style={styles.header}>Acteurs</Text>
           <View style={{ flexDirection: "row" }}>
             <ScrollView horizontal={true}>
               {actor.map((item, index) => {
@@ -349,18 +312,23 @@ const _SerieDetail = (props) => {
               })}
             </ScrollView>
           </View>
-          
-          <Text> Serie Similaire</Text>
+
+          <Text style={styles.header}> Séries Similaires</Text>
           <ScrollView horizontal={true}>
             {similars.map((similar, index) => {
-              return <SimilarSerie similar={similar} key={index}  />
+              return <SimilarSerie similar={similar} key={index} />;
             })}
           </ScrollView>
         </View>
       </ScrollView>
+
+      {/* <View style={{backgroundColor: "red"}}>
+        
+        
+      </View> */}
     </View>
   );
-}
+};
 
 const mapStateToProps = (state) => ({
   movieReducer: state.movieReducer,
@@ -369,28 +337,31 @@ const mapStateToProps = (state) => ({
 const SerieDetail = connect(mapStateToProps, {
   addToWishList,
   removeFromWishlist,
-
 })(_SerieDetail);
 
 export default SerieDetail;
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight,
+    backgroundColor: "#111112",
   },
   cover_image: {
     height: 285,
   },
   header: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "700",
+    marginTop: 20,
+    color: "#fff",
+    marginBottom: 15,
   },
   title: {
-    fontSize: 22,
+    fontSize: 26,
     fontWeight: "bold",
     alignItems: "center",
+    color: "#fff",
   },
   square: {
     width: 100,
@@ -415,5 +386,8 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     borderRadius: 20,
+  },
+  detail: {
+    color: "#fff",
   },
 });

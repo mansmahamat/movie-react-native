@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import {
   Button,
   Dimensions,
+  Animated,
   Image,
   SafeAreaView,
   ScrollView,
@@ -13,6 +14,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { connect } from "react-redux";
 import SerieItems from "../components/SerieItems";
@@ -20,6 +22,7 @@ import {
   addToWishList,
   fetchOnAirSeries,
   fetchSeries,
+  fetchTvSeries,
   fetchTopRatedMovies,
   fetchUpcomingMovies,
   removeFromWishlist,
@@ -31,21 +34,28 @@ const _SerieScreen = (props) => {
     movieReducer,
     fetchOnAirSeries,
     fetchSeries,
+    fetchTvSeries,
     addToWishList,
     removeFromWishlist,
     fetchTopRatedMovies,
     fetchUpcomingMovies,
   } = props;
 
-  const { onAirSeries, series, wishlist, topMovies, upcomingMovies } = movieReducer;
+  const { onAirSeries, series, tvSeries, wishlist, topMovies, upcomingMovies } = movieReducer;
 
   const [currentMovie, setCurrentMovie] = useState(undefined);
   const [listTopMovie, setListTopMovie] = useState([]);
   const [listUpcomingMovie, setListUpcomingMovie] = useState();
   const [listSerie, setListSerie] = useState([]);
+  const [listTvSerie, setListTvSerie] = useState([]);
   const [listAirSerie, setlistAirSerie] = useState([]);
   const [query, setQuery] = useState("");
   const [queryResult, setQueryResult] = useState([]);
+  const [iconName, setIconName] = useState("magnify")
+  const [isAnimating, setIsAnimating] = useState(false)
+  const [fadeAnim, setFadeAnim] = useState(new Animated.Value(24))
+  
+  const  deviceWidth = Dimensions.get("window").width;
 
 
   useEffect(() => {
@@ -57,12 +67,17 @@ const _SerieScreen = (props) => {
     fetchOnAirSeries();
     setlistAirSerie(onAirSeries);
   }, [onAirSeries]);
+
+  useEffect(() => {
+    fetchTvSeries();
+    setListTvSerie(tvSeries);
+  }, [tvSeries]);
   
 
   const searchData = (query) => {
     axios
       .get(
-        "https://api.themoviedb.org/3/search/movie?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&query=" +
+        "https://api.themoviedb.org/3/search/tv?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&query=" +
           query +
           "&page=1&include_adult=false"
       )
@@ -74,9 +89,13 @@ const _SerieScreen = (props) => {
       });
   };
 
+  const resetQuery = () => {
+    setQuery("")
+  }
+
   const goSearchResults = () => {
-    navigation.navigate("ResultsQueryMovie", { queryResult: queryResult });
-    setQuery("");
+    navigation.navigate("ResultsQuerySerie", { queryResult: queryResult, resetQuery:resetQuery });
+    
   };
 
   const onTapAddToWishlist = (serie) => {
@@ -95,48 +114,69 @@ const _SerieScreen = (props) => {
     return false;
   };
 
+
+  
+
   return (
     <SafeAreaView
       style={styles.container}
       showHorizontalScrollIndicator={false}
     >
       <View style={styles.header}>
-        <Text style={styles.title}>Movied App</Text>
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+       
+        <View style={{ flexDirection: "row"}}>
           <TextInput
-            style={{
-              backgroundColor: "orange",
-              width: 150,
-            }}
-            data={queryResult}
-            placeholder="searchhint"
+           style={{
+            backgroundColor: "white",
+            width: 200,
+            borderRadius: 10,
+            marginTop: 8
+          }}
+            data={query}
+            placeholder="Rechercher une série"
             onChangeText={(query) => {
               searchData(query);
             }}
           />
-          <Button
-            onPress={goSearchResults}
-            title="serie"
-            color="#841584"
+         
+        <TouchableWithoutFeedback
+          style={{
+            width: 24,
+            height: 40,
+            justifyContent: "flex-end",
+            marginLeft: 15
+          }}
+          onPress={goSearchResults}
+        >
+          <MaterialCommunityIcons
+            name="magnify"
+            color={"#998CF8"}
+            size={30}
           />
+        </TouchableWithoutFeedback>
+    
+          
         </View>
       </View>
 
       <ScrollView>
         <View
           style={{
-            flexDirection: "row",
+            flexDirection: "column",
             justifyContent: "space-between",
             alignItems: "center",
             paddingHorizontal: 20,
             marginVertical: 20,
           }}
         >
+          <Text style={{marginBottom: 20, fontSize: 32, fontWeight: "bold", color:"#998CF8"}}>
+            Séries
+          </Text>
           <Image
             style={styles.cover_image}
             source={{
               uri:
-                "https://image.tmdb.org/t/p/w500/fatz1aegtBGh7KS0gipcsw9MqUn.jpg",
+                "https://image.tmdb.org/t/p/w500/tsRy63Mu5cu8etL1X7ZLyf7UP1M.jpg",
             }}
           />
         </View>
@@ -150,7 +190,7 @@ const _SerieScreen = (props) => {
             marginVertical: 20,
           }}
         >
-          <Text>Popular serie</Text>
+          <Text style={styles.section}>Séries populaires</Text>
           <View
             style={{
               flexDirection: "row",
@@ -158,7 +198,7 @@ const _SerieScreen = (props) => {
               alignItems: "center",
             }}
           >
-            <MaterialCommunityIcons name="chevron-right" size={20} />
+            <MaterialCommunityIcons name="chevron-right" color={"#998CF8"} size={32} />
           </View>
         </View>
         <ScrollView horizontal={true}>
@@ -186,7 +226,7 @@ const _SerieScreen = (props) => {
             marginVertical: 20,
           }}
         >
-          <Text>A l'affiche serie</Text>
+          <Text style={styles.section}>A l'affiche </Text>
           <View
             style={{
               flexDirection: "row",
@@ -194,13 +234,49 @@ const _SerieScreen = (props) => {
               alignItems: "center",
             }}
           >
-            <MaterialCommunityIcons name="chevron-right" size={20} />
+            <MaterialCommunityIcons name="chevron-right" color={"#998CF8"} size={32} />
           </View>
         </View>
         <ScrollView horizontal={true}>
           <View style={{ flexDirection: "row", flex: 1, paddingLeft: 20 }}>
             {listAirSerie.map((serie, index) => {
-              return index < 15 ? (
+              return index < 20 ? (
+                <SerieItems
+                  key={serie.id}
+                  serie={serie}
+                  title={serie.title}
+                  image={serie.poster_path}
+                />
+              ) : (
+                <View key={serie.id} />
+              );
+            })}
+          </View>
+        </ScrollView>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingHorizontal: 20,
+            marginVertical: 20,
+          }}
+        >
+          <Text style={styles.section}>Mieux notés </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              flexWrap: "wrap",
+              alignItems: "center",
+            }}
+          >
+            <MaterialCommunityIcons name="chevron-right" color={"#998CF8"} size={32} />
+          </View>
+        </View>
+        <ScrollView horizontal={true}>
+          <View style={{ flexDirection: "row", flex: 1, paddingLeft: 20 }}>
+            {listTvSerie.map((serie, index) => {
+              return index < 20 ? (
                 <SerieItems
                   key={serie.id}
                   serie={serie}
@@ -229,6 +305,7 @@ const SerieScreen = connect(mapStateToProps, {
   fetchTopRatedMovies,
   fetchUpcomingMovies,
   fetchSeries,
+  fetchTvSeries
 })(_SerieScreen);
 
 export default SerieScreen;
@@ -238,13 +315,15 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Constants.statusBarHeight,
     paddingVertical: 20,
+    backgroundColor: "#111112"
   },
   header: {
     width: "100%",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     paddingHorizontal: 20,
-    marginBottom: 10,
+    marginBottom: 20,
+  
   },
   title: {
     fontWeight: "bold",
@@ -301,4 +380,10 @@ const styles = StyleSheet.create({
     top: 0,
     zIndex: 1,
   },
+  section: {
+    color: "#fff",
+    fontSize: 32,
+    fontWeight: "bold",
+
+  }
 });

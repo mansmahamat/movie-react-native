@@ -22,7 +22,7 @@ export default function SerieItems({ serie }) {
             uri: "https://image.tmdb.org/t/p/w500" + serie.backdrop_path,
           }}
         />
-        <Text style={{ width: 171 }}> {serie.name} </Text>
+        <Text style={{ width: 171, color:"#fff", fontSize:16, fontWeight:"500" }}> {serie.name} </Text>
       </View>
     </TouchableWithoutFeedback>
   );

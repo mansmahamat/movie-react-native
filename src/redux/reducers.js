@@ -3,6 +3,7 @@ import { Action } from "./actions";
 const initialState = {
   movies: [],
   series: [],
+  tvSeries: [],
   onAirSeries: [],
   topMovies: [],
   upcomingMovies: [],
@@ -19,6 +20,11 @@ export default function (state = initialState, action) {
         movies: action.payload,
       };
       case Action.GET_SERIES:
+        return {
+          ...state,
+          tvSeries: action.payload,
+        };
+        case Action.GET_TV_SERIES:
         return {
           ...state,
           series: action.payload,

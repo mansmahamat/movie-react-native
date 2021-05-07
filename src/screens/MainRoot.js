@@ -1,36 +1,25 @@
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  ActivityIndicator,
-} from "react-native";
-import Constants from "expo-constants";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Constants from "expo-constants";
+import React from "react";
+import { StyleSheet } from "react-native";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import HomeScreen from "./HomeScreen";
 import SerieScreen from "./SerieScreen";
 import WishlistScreen from "./WishlistScreen";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-
-
-
-
 
 export default function MainRoot() {
- const Tab = createBottomTabNavigator();
-
-
- 
+  const Tab = createBottomTabNavigator();
 
   return (
     <Tab.Navigator
       tabBarOptions={{
-        activeTintColor: "#333",
+        activeTintColor: "#998CF8",
         inactiveTintColor: "#999",
+        style: {
+          backgroundColor: "#111112",
+        },
       }}
     >
-      
       <Tab.Screen
         options={{
           tabBarLabel: "Films",

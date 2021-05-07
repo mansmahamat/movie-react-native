@@ -3,6 +3,7 @@ import { BASE_URL } from "../utilities";
 
 export const Action = {
   GET_MOVIES: "fetch_movies",
+  GET_TV_SERIES: "fetch_tv_series", 
   GET_SERIES: "fetch_series",
   GET_ON_AIR_SERIES: "fetch_on_air_series",
   ADD_TO_WISHLIST: "add_to_wishlist",
@@ -44,12 +45,42 @@ export const fetchSeries = () => {
   }
 };
 
+export const fetchTvSeries = () => {
+  try {
+    return async (dispatch) => {
+      const response = await axios.get(
+        "https://api.themoviedb.org/3/tv/on_the_air?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&page=1"
+      );
+
+       
+      if (response.data) {
+        dispatch({
+          type: Action.GET_TV_SERIES,
+          payload: response.data.results,
+        });
+      } else {
+        //throw error
+        dispatch({
+          type: Action.ON_ERROR,
+          payload: "Unable to fetch TV series",
+        });
+      }
+    };
+  } catch (err) {
+    //throw error
+    dispatch({
+      type: Action.ON_ERROR,
+      payload: "Unable to fetch movies",
+    });
+  }
+};
+
 
 export const fetchOnAirSeries = () => {
   try {
     return async (dispatch) => {
       const response = await axios.get(
-        "https://api.themoviedb.org/3/tv/on_the_air?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&page=1"
+        "https://api.themoviedb.org/3/tv/top_rated?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&page=3"
       );
 
        
@@ -109,7 +140,7 @@ export const fetchTopRatedMovies = () => {
     try {
       return async (dispatch) => {
         const response = await axios.get(
-          "https://api.themoviedb.org/3/movie/top_rated?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&page=2"
+          "https://api.themoviedb.org/3/movie/top_rated?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&page=1&region=FR"
         );
   
         // console.log(response.data.results);
@@ -139,7 +170,7 @@ export const fetchTopRatedMovies = () => {
     try {
       return async (dispatch) => {
         const response = await axios.get(
-          "https://api.themoviedb.org/3/movie/upcoming?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&page=1"
+          "https://api.themoviedb.org/3/discover/movie?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&region=FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate"
         );
   
         // console.log(response.data.results);

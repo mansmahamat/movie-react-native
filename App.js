@@ -21,6 +21,7 @@ import SerieDetail from "./src/screens/SerieDetail";
 import MainRoot from "./src/screens/MainRoot";
 import ActorDetail from "./src/screens/ActorDetail";
 import ResultsQueryMovie from "./src/screens/ResultsQueryMovie"
+import ResultsQuerySerie from "./src/screens/ResultsQuerySerie"
 
 const Stack = createStackNavigator();
 
@@ -96,6 +97,11 @@ export default () => {
               name="ResultsQueryMovie"
               component={ResultsQueryMovie}
               options={{ title: "ResultsQueryMovie" }}
+            />
+            <Stack.Screen
+              name="ResultsQuerySerie"
+              component={ResultsQuerySerie}
+              options={{ title: "ResultsQuerySerie" }}
             />
           </Stack.Navigator>
         </NavigationContainer>

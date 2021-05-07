@@ -3,7 +3,6 @@ import axios from "axios";
 import Constants from "expo-constants";
 import React, { useEffect, useState } from "react";
 import {
-  Button,
   Dimensions,
   Image,
   SafeAreaView,
@@ -13,6 +12,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { connect } from "react-redux";
 import MovieItems from "../components/MovieItems";
@@ -98,42 +98,64 @@ const _HomeScreen = (props) => {
       showHorizontalScrollIndicator={false}
     >
       <View style={styles.header}>
-        <Text style={styles.title}>Movied App</Text>
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+        <View style={{ flexDirection: "row" }}>
           <TextInput
             style={{
-              backgroundColor: "green",
-              width: 150,
+              backgroundColor: "white",
+              width: 200,
+              borderRadius: 10,
+              marginTop: 8,
             }}
             data={queryResult}
-            placeholder="searchhint"
+            placeholder="Rechercher un film"
             onChangeText={(query) => {
               searchData(query);
             }}
           />
-          <Button
+          <TouchableWithoutFeedback
+            style={{
+              width: 24,
+              height: 40,
+              justifyContent: "flex-end",
+              marginLeft: 15,
+            }}
             onPress={goSearchResults}
-            title="Learn More"
-            color="#841584"
-          />
+          >
+            <MaterialCommunityIcons
+              name="magnify"
+              color={"#998CF8"}
+              size={30}
+            />
+          </TouchableWithoutFeedback>
         </View>
       </View>
 
       <ScrollView>
         <View
           style={{
-            flexDirection: "row",
+            flexDirection: "column",
             justifyContent: "space-between",
             alignItems: "center",
             paddingHorizontal: 20,
             marginVertical: 20,
           }}
         >
+          <Text
+            style={{
+              marginBottom: 20,
+              fontSize: 32,
+              fontWeight: "bold",
+              color: "#998CF8",
+            }}
+          >
+            Films
+          </Text>
           <Image
             style={styles.cover_image}
+            resizeMode="cover"
             source={{
               uri:
-                "https://image.tmdb.org/t/p/w500/fatz1aegtBGh7KS0gipcsw9MqUn.jpg",
+                "https://image.tmdb.org/t/p/w500/hziiv14OpD73u9gAak4XDDfBKa2.jpg",
             }}
           />
         </View>
@@ -146,7 +168,7 @@ const _HomeScreen = (props) => {
             marginVertical: 20,
           }}
         >
-          <Text>Popular movie</Text>
+          <Text style={styles.section}>Films populaires</Text>
           <View
             style={{
               flexDirection: "row",
@@ -154,7 +176,11 @@ const _HomeScreen = (props) => {
               alignItems: "center",
             }}
           >
-            <MaterialCommunityIcons name="chevron-right" size={20} />
+            <MaterialCommunityIcons
+              name="chevron-right"
+              color={"#998CF8"}
+              size={32}
+            />
           </View>
         </View>
         <ScrollView horizontal={true}>
@@ -167,7 +193,7 @@ const _HomeScreen = (props) => {
             }}
           >
             {listTopMovie.map((movie, index) => {
-              return index < 15 ? (
+              return index < 20 ? (
                 <MovieItems
                   key={movie.id}
                   movie={movie}
@@ -190,7 +216,7 @@ const _HomeScreen = (props) => {
             marginVertical: 20,
           }}
         >
-          <Text>Recent movie</Text>
+          <Text style={styles.section}>Films récent</Text>
           <View
             style={{
               flexDirection: "row",
@@ -198,13 +224,17 @@ const _HomeScreen = (props) => {
               alignItems: "center",
             }}
           >
-            <MaterialCommunityIcons name="chevron-right" size={20} />
+            <MaterialCommunityIcons
+              name="chevron-right"
+              color={"#998CF8"}
+              size={32}
+            />
           </View>
         </View>
         <ScrollView horizontal={true}>
           <View style={{ flexDirection: "row", flex: 1, paddingLeft: 20 }}>
             {upcomingMovies.map((movie, index) => {
-              return index < 15 ? (
+              return index < 20 ? (
                 <MovieItems
                   key={movie.id}
                   movie={movie}
@@ -242,11 +272,12 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Constants.statusBarHeight,
     paddingVertical: 20,
+    backgroundColor: "#111112",
   },
   header: {
     width: "100%",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     paddingHorizontal: 20,
     marginBottom: 10,
   },
@@ -304,5 +335,10 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     zIndex: 1,
+  },
+  section: {
+    color: "#fff",
+    fontSize: 32,
+    fontWeight: "bold",
   },
 });

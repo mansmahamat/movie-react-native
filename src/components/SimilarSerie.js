@@ -16,7 +16,7 @@ export default function SimilarSerie({similar}) {
             uri: "https://image.tmdb.org/t/p/w500" + similar.poster_path ,
           }}
         />
-        <Text style={{ flexWrap: "wrap", width: 91 }}>{similar.name}</Text>
+        <Text style={{ flexWrap: "wrap", width: 91, color:"#fff", fontWeight:"600" }}>{similar.name}</Text>
        
       </View>
       </TouchableWithoutFeedback>

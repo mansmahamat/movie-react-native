@@ -1,5 +1,6 @@
+import Constants from "expo-constants";
 import React from 'react'
-import { Text, View, StyleSheet, Dimensions, FlatList, Image } from 'react-native'
+import { Text, View, StyleSheet, Dimensions, FlatList, Image, SafeAreaView } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from "@react-navigation/native";
 
@@ -8,16 +9,18 @@ export default function ResultsQueryMovie(props) {
     const navigation = useNavigation();
     console.log(props)
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
 
-<Text style={{ fontSize: 30, fontWeight: '600', color: 'gray', marginLeft: 20,
+<Text style={{ fontSize: 30, fontWeight: '600', color: 'white', marginLeft: 20,
         marginBottom: 20 }}>
                 Recherche un film
             </Text>
-            <Text style={{ backgroundColor:'orange', fontWeight: 'bold'}}onPress={() => props.navigation.pop()}>
+            <Text style={{ color:'#998CF8', fontWeight: 'bold', fontSize: 20}}onPress={() => props.navigation.pop()}>
               Retour
             </Text>
-            <FlatList
+          {queryResult.length === 0 ? <Text style={{marginTop: 50, fontWeight: "bold", fontSize:26, color:"#998CF8"}}>
+              Aucun résultats
+            </Text> :  <FlatList
             horizontal={false}
             showsVerticalScrollIndicator={false}
             data={queryResult}
@@ -31,19 +34,15 @@ export default function ResultsQueryMovie(props) {
                       }: {uri: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"}}
                     />
                     <Text style={{ flex: 5, padding: 10, fontSize: 14 }}> {item.title} </Text>
-                    <TouchableOpacity  style={{ flex: 2, height: '100%', backgroundColor: '#D92F24', justifyContent: 'center', borderTopRightRadius: 10, borderBottomRightRadius: 10}}>
-                        <Text style={{ fontSize: 40 , color: '#FFF'}}> ▶</Text>
+                    <TouchableOpacity  style={{ flex: 2, height: '100%', backgroundColor: '#998CF8', justifyContent: 'center', borderTopRightRadius: 10, borderBottomRightRadius: 10}}>
+                       
                     </TouchableOpacity>
                 </TouchableOpacity>
-            ) : <View/>}}
+            ) : <View key={index}/>}}
             keyExtractor={(item) => item._id}
-        />
-        </View>
-        // <View style={{flex: 1,}}>
-        //     <Text style={{backgroundColor: "red", fontSize:77}}>
-        //        zzzzzz {queryResult.id} 
-        //     </Text>
-        // </View>
+        />}
+        </SafeAreaView>
+       
         
     )
 }
@@ -56,12 +55,13 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'flex-start',
       alignItems: 'center',
-      backgroundColor: '#E5E5E5'
+      backgroundColor: '#111112',
+      marginTop: Constants.statusBarHeight,
   }, 
   movieCard: {
   width: Dimensions.get('screen').width - 10,
   height: 110,
-  backgroundColor: '#FFF',
+  backgroundColor: '#998CF8',
   margin: 5,
   borderRadius: 10,
   flexDirection: 'row',

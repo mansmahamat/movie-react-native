@@ -1,0 +1,1 @@
+{"ast":null,"code":"export var BASE_URL = 'https://netflix-example.herokuapp.com';","map":{"version":3,"sources":["/Users/mansour/Desktop/Perso/movie-react-native/src/utilities/index.js"],"names":["BASE_URL"],"mappings":"AAAA,OAAO,IAAMA,QAAQ,GAAG,uCAAjB","sourcesContent":["export const BASE_URL = 'https://netflix-example.herokuapp.com'"]},"metadata":{},"sourceType":"module"}

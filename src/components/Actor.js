@@ -30,8 +30,8 @@ export default function Actor(props) {
   }, [])
 
     return (
-        <TouchableWithoutFeedback onPress={() => navigation.navigate("ActorDetail", { actor: actorDetail })}>
-        <View style={{ marginRight: 10 }}>
+        <TouchableWithoutFeedback>
+        <View style={{ marginRight: 10, marginTop:10 }}>
         <Image
           resizeMode={"cover"}
           style={styles.images}
@@ -39,7 +39,7 @@ export default function Actor(props) {
             uri: "https://image.tmdb.org/t/p/w500" + props.actor.profile_path,
           }}
         />
-        <Text style={{ flexWrap: "wrap", width: 91 }}>{props.actor.name}</Text>
+        <Text style={{ flexWrap: "wrap", width: 91, color:"#fff", fontWeight:"600", fontSize: 16 }}>{props.actor.name}</Text>
        
       </View>
       </TouchableWithoutFeedback>

@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "LocalStorage",
-    "slug": "LocalStorage",
+    "name": "Moovie-mans",
+    "slug": "movie-mans",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Movie.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/Movie.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#111112"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,6 +21,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }

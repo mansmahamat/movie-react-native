@@ -22,7 +22,7 @@ export default function MovieItems({ movie }) {
             uri: "https://image.tmdb.org/t/p/w500" + movie.backdrop_path,
           }}
         />
-        <Text style={{ width: 171 }}>{movie.title}</Text>
+        <Text style={{ width: 171, color:"#fff", fontSize:16, fontWeight:"500" }}>{movie.title}</Text>
       </View>
     </TouchableWithoutFeedback>
   );

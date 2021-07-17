@@ -38,7 +38,7 @@ const _WishlistScreen = (props) => {
           marginBottom: 20,
         }}
       >
-        Favoris
+        Favourites
       </Text>
 
       <FlatList
@@ -62,15 +62,15 @@ const _WishlistScreen = (props) => {
             />
 
             {item.name && (
-              <Text style={{ flex: 5, padding: 10, fontSize: 14 }}>
+              <Text key={item.name} style={{ flex: 5, padding: 10, fontSize: 14 }}>
                 {" "}
-                {item.name} (Série){" "}
+                {item.name} (Serie){" "}
               </Text>
             )}
             {item.title && (
-              <Text style={{ flex: 5, padding: 10, fontSize: 14 }}>
+              <Text key={item.title} style={{ flex: 5, padding: 10, fontSize: 14 }}>
                 {" "}
-                {item.title} (Film){" "}
+                {item.title} (Movie){" "}
               </Text>
             )}
             {item.title && (

@@ -16,7 +16,7 @@ export default function ActorDetail(props) {
       .get(
         "https://api.themoviedb.org/3/person/" +
         actor.id +
-          "/movie_credits?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR"
+          "/movie_credits?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=en-EN"
       )
       .then((response) => {
         setOtherMovies(response.data.cast)
@@ -74,13 +74,13 @@ export default function ActorDetail(props) {
           </View>
      
         { actor.biography ? <View>
-            <Text style={styles.header}>Biographie</Text>
+            <Text style={styles.header}>Biography</Text>
           <Text>
               {actor.biography}
           </Text>
         </View> : null }
         <Text style={styles.header}>
-                Films populaires
+                Popular movies
             </Text>
         <ScrollView horizontal={true}>
         {otherMovies.map((item, index) => {

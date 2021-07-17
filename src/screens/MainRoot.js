@@ -22,7 +22,7 @@ export default function MainRoot() {
     >
       <Tab.Screen
         options={{
-          tabBarLabel: "Films",
+          tabBarLabel: "Movies",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="movie-open" color={color} size={25} />
           ),
@@ -32,7 +32,7 @@ export default function MainRoot() {
       />
       <Tab.Screen
         options={{
-          tabBarLabel: "Séries",
+          tabBarLabel: "Series",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="popcorn" color={color} size={25} />
           ),
@@ -42,7 +42,7 @@ export default function MainRoot() {
       />
       <Tab.Screen
         options={{
-          tabBarLabel: "Favoris",
+          tabBarLabel: "Favourites",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="heart" color={color} size={25} />
           ),

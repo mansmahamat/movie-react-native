@@ -19,7 +19,7 @@ export const fetchSeries = () => {
   try {
     return async (dispatch) => {
       const response = await axios.get(
-        "https://api.themoviedb.org/3/tv/popular?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&page=1"
+        "https://api.themoviedb.org/3/tv/popular?api_key=afd804ef50f1e6b1ad6f29209e9395e6&page=1"
       );
 
        
@@ -49,7 +49,7 @@ export const fetchTvSeries = () => {
   try {
     return async (dispatch) => {
       const response = await axios.get(
-        "https://api.themoviedb.org/3/tv/on_the_air?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&page=1"
+        "https://api.themoviedb.org/3/tv/on_the_air?api_key=afd804ef50f1e6b1ad6f29209e9395e6&page=1"
       );
 
        
@@ -80,7 +80,7 @@ export const fetchOnAirSeries = () => {
   try {
     return async (dispatch) => {
       const response = await axios.get(
-        "https://api.themoviedb.org/3/tv/top_rated?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&page=3"
+        "https://api.themoviedb.org/3/tv/top_rated?api_key=afd804ef50f1e6b1ad6f29209e9395e6&page=3"
       );
 
        
@@ -140,7 +140,7 @@ export const fetchTopRatedMovies = () => {
     try {
       return async (dispatch) => {
         const response = await axios.get(
-          "https://api.themoviedb.org/3/movie/top_rated?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&page=1&region=FR"
+          "https://api.themoviedb.org/3/movie/top_rated?api_key=afd804ef50f1e6b1ad6f29209e9395e6"
         );
   
         // console.log(response.data.results);
@@ -170,7 +170,7 @@ export const fetchTopRatedMovies = () => {
     try {
       return async (dispatch) => {
         const response = await axios.get(
-          "https://api.themoviedb.org/3/discover/movie?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&region=FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate"
+          "https://api.themoviedb.org/3/discover/movie?api_key=afd804ef50f1e6b1ad6f29209e9395e6&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate"
         );
   
         // console.log(response.data.results);

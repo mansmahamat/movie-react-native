@@ -59,7 +59,7 @@ const _HomeScreen = (props) => {
   const searchData = (query) => {
     axios
       .get(
-        "https://api.themoviedb.org/3/search/movie?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&query=" +
+        "https://api.themoviedb.org/3/search/movie?api_key=afd804ef50f1e6b1ad6f29209e9395e6&query=" +
           query +
           "&page=1&include_adult=false"
       )
@@ -107,7 +107,7 @@ const _HomeScreen = (props) => {
               marginTop: 8,
             }}
             data={queryResult}
-            placeholder="Rechercher un film"
+            placeholder="Search a movie"
             onChangeText={(query) => {
               searchData(query);
             }}
@@ -148,7 +148,7 @@ const _HomeScreen = (props) => {
               color: "#998CF8",
             }}
           >
-            Films
+            Movies
           </Text>
           <Image
             style={styles.cover_image}
@@ -168,7 +168,7 @@ const _HomeScreen = (props) => {
             marginVertical: 20,
           }}
         >
-          <Text style={styles.section}>Films populaires</Text>
+          <Text style={styles.section}>Popular movies</Text>
           <View
             style={{
               flexDirection: "row",
@@ -216,7 +216,7 @@ const _HomeScreen = (props) => {
             marginVertical: 20,
           }}
         >
-          <Text style={styles.section}>Films récent</Text>
+          <Text style={styles.section}>Recent films</Text>
           <View
             style={{
               flexDirection: "row",

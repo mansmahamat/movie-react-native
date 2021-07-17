@@ -51,7 +51,7 @@ const _MovieDetail = (props) => {
       .get(
         "https://api.themoviedb.org/3/movie/" +
           movie.id +
-          "?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR"
+          "?api_key=afd804ef50f1e6b1ad6f29209e9395e6"
       )
       .then((response) => {
         setDetails(response.data);
@@ -66,7 +66,7 @@ const _MovieDetail = (props) => {
       .get(
         "https://api.themoviedb.org/3/movie/" +
           movie.id +
-          "/recommendations?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR"
+          "/recommendations?api_key=afd804ef50f1e6b1ad6f29209e9395e6"
       )
       .then((response) => {
         setIsLoading(true);
@@ -83,7 +83,7 @@ const _MovieDetail = (props) => {
       .get(
         "https://api.themoviedb.org/3/movie/" +
           movie.id +
-          "/credits?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR"
+          "/credits?api_key=afd804ef50f1e6b1ad6f29209e9395e6"
       )
       .then((response) => {
         setIsLoading(true);
@@ -100,7 +100,7 @@ const _MovieDetail = (props) => {
       .get(
         "https://api.themoviedb.org/3/movie/" +
           movie.id +
-          "/videos?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR"
+          "/videos?api_key=afd804ef50f1e6b1ad6f29209e9395e6"
       )
       .then((response) => {
         setIsLoading(true);
@@ -273,7 +273,7 @@ const _MovieDetail = (props) => {
             <View style={{  flexDirection: "column" }}>
               <Text style={styles.title}>{movie.title} </Text>
               <Text style={{ marginTop: 5, color: "#fff"}}>
-                Sortie le {moment(movie.release_date).format("DD/MM/YYYY")}
+                Released on {moment(movie.release_date).format("DD/MM/YYYY")}
               </Text>
             </View>
             <View
@@ -300,10 +300,10 @@ const _MovieDetail = (props) => {
             {details.genres && <GenresGroup data={details.genres} />}
           </View>
 
-          <Text style={styles.header}>Résumé</Text>
+          <Text style={styles.header}>Summary</Text>
           <Text style={{ color: "#fff" }}>{movie.overview}</Text>
 
-          <Text style={styles.header}>Acteurs</Text>
+          <Text style={styles.header}>Actors</Text>
           <View style={{ flexDirection: "row" }}>
             <ScrollView horizontal={true}>
               {actor.map((item, index) => {
@@ -315,7 +315,7 @@ const _MovieDetail = (props) => {
               })}
             </ScrollView>
           </View>
-          <Text style={styles.header}> Films Similaires</Text>
+          <Text style={styles.header}> Similar movies</Text>
           <Text></Text>
           <ScrollView horizontal={true}>
             {similars.map((similar, index) => {

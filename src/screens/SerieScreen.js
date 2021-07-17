@@ -133,7 +133,7 @@ const _SerieScreen = (props) => {
             marginTop: 8
           }}
             data={query}
-            placeholder="Rechercher une série"
+            placeholder="Search a serie"
             onChangeText={(query) => {
               searchData(query);
             }}
@@ -170,7 +170,7 @@ const _SerieScreen = (props) => {
           }}
         >
           <Text style={{marginBottom: 20, fontSize: 32, fontWeight: "bold", color:"#998CF8"}}>
-            Séries
+            Series
           </Text>
           <Image
             style={styles.cover_image}
@@ -190,7 +190,7 @@ const _SerieScreen = (props) => {
             marginVertical: 20,
           }}
         >
-          <Text style={styles.section}>Séries populaires</Text>
+          <Text style={styles.section}>Popular series</Text>
           <View
             style={{
               flexDirection: "row",
@@ -226,7 +226,7 @@ const _SerieScreen = (props) => {
             marginVertical: 20,
           }}
         >
-          <Text style={styles.section}>A l'affiche </Text>
+          <Text style={styles.section}>On display </Text>
           <View
             style={{
               flexDirection: "row",
@@ -262,7 +262,7 @@ const _SerieScreen = (props) => {
             marginVertical: 20,
           }}
         >
-          <Text style={styles.section}>Mieux notés </Text>
+          <Text style={styles.section}>Top rated </Text>
           <View
             style={{
               flexDirection: "row",

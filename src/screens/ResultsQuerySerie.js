@@ -13,14 +13,14 @@ export default function ResultsQuerySerie(props) {
 
 <Text style={{ fontSize: 30, fontWeight: '600', color: 'white', marginLeft: 20,
         marginBottom: 20 }}>
-                Recherche une série
+                Search for a series
             </Text>
             <Text style={{ color: '#998CF8', fontWeight: 'bold'}}onPress={() => { props.navigation.pop(); props.route.params.resetQuery("")}}>
-              Retour
+              Back
             </Text>
             
             {queryResult.length === 0 ? <Text style={{marginTop: 50, fontWeight: "bold", fontSize:26}}>
-              Aucun résultats
+              No results found
             </Text> : <FlatList
             horizontal={false}
             showsVerticalScrollIndicator={false}

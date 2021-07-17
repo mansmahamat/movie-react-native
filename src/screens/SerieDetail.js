@@ -45,7 +45,7 @@ const _SerieDetail = (props) => {
       .get(
         "https://api.themoviedb.org/3/tv/" +
           serie.id +
-          "/videos?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR"
+          "/videos?api_key=afd804ef50f1e6b1ad6f29209e9395e6"
       )
       .then((response) => {
         setTrailers(response.data.results);
@@ -58,7 +58,7 @@ const _SerieDetail = (props) => {
       .get(
         "https://api.themoviedb.org/3/tv/" +
           serie.id +
-          "?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR"
+          "?api_key=afd804ef50f1e6b1ad6f29209e9395e6"
       )
       .then((response) => {
         setDetails(response.data);
@@ -72,7 +72,7 @@ const _SerieDetail = (props) => {
       .get(
         "https://api.themoviedb.org/3/tv/" +
           serie.id +
-          "/recommendations?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR"
+          "/recommendations?api_key=afd804ef50f1e6b1ad6f29209e9395e6"
       )
       .then((response) => {
         setSimilars(response.data.results);
@@ -85,7 +85,7 @@ const _SerieDetail = (props) => {
       .get(
         "https://api.themoviedb.org/3/tv/" +
           serie.id +
-          "/credits?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR"
+          "/credits?api_key=afd804ef50f1e6b1ad6f29209e9395e6"
       )
       .then((response) => {
         setActor(response.data.cast);
@@ -286,21 +286,21 @@ const _SerieDetail = (props) => {
 
           <View style={{ marginBottom: 20 }}>
             <Text style={styles.detail}>
-              Nombre de saisons : {details.number_of_seasons}
+            Number of seasons : {details.number_of_seasons}
             </Text>
             <Text style={styles.detail}>
-              Nombre épisodes : {details.number_of_episodes}
+            Number of episodes : {details.number_of_episodes}
             </Text>
             <Text style={styles.detail}>
-              Durée moyenne des épisodes : {details.episode_run_time} min
+            Average length of episodes : {details.episode_run_time} min
             </Text>
             <EpisodesList creators={creator} />
           </View>
 
-          <Text style={styles.header}>Résumé</Text>
+          <Text style={styles.header}>Summary</Text>
           <Text style={{ color: "#fff" }}> {serie.overview} </Text>
 
-          <Text style={styles.header}>Acteurs</Text>
+          <Text style={styles.header}>Actors</Text>
           <View style={{ flexDirection: "row" }}>
             <ScrollView horizontal={true}>
               {actor.map((item, index) => {
@@ -313,7 +313,7 @@ const _SerieDetail = (props) => {
             </ScrollView>
           </View>
 
-          <Text style={styles.header}> Séries Similaires</Text>
+          <Text style={styles.header}> Similar series</Text>
           <ScrollView horizontal={true}>
             {similars.map((similar, index) => {
               return <SimilarSerie similar={similar} key={index} />;
@@ -321,11 +321,6 @@ const _SerieDetail = (props) => {
           </ScrollView>
         </View>
       </ScrollView>
-
-      {/* <View style={{backgroundColor: "red"}}>
-        
-        
-      </View> */}
     </View>
   );
 };

@@ -77,7 +77,7 @@ const _SerieScreen = (props) => {
   const searchData = (query) => {
     axios
       .get(
-        "https://api.themoviedb.org/3/search/tv?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR&query=" +
+        "https://api.themoviedb.org/3/search/tv?api_key=afd804ef50f1e6b1ad6f29209e9395e6&query=" +
           query +
           "&page=1&include_adult=false"
       )

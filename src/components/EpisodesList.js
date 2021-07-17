@@ -5,7 +5,7 @@ export default function EpisodesList({creators}) {
     return (
         <View style={{flexDirection:"row"}}>
           <Text style={{color:"#fff"}}>
-            Créer par  
+            Create by 
           </Text>
             {creators?.map((creator, index) => {
                     return index < 2 ? (

@@ -18,7 +18,7 @@ export default function Actor(props) {
       .get(
         "https://api.themoviedb.org/3/person/" +
         props.actor.id +
-          "?api_key=afd804ef50f1e6b1ad6f29209e9395e6&language=fr-FR"
+          "?api_key=afd804ef50f1e6b1ad6f29209e9395e6"
       )
       .then((response) => {
         setActorDetail(response.data)

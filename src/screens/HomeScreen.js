@@ -216,7 +216,7 @@ const _HomeScreen = (props) => {
             marginVertical: 20,
           }}
         >
-          <Text style={styles.section}>Recent films</Text>
+          <Text style={styles.section}>Recent movies</Text>
           <View
             style={{
               flexDirection: "row",
